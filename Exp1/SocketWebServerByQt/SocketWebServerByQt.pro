@@ -25,10 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    config.cpp \
+    respondthread.cpp \
+    acceptthread.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    config.h \
+    respondthread.h \
+    acceptthread.h
+
+LIBS += -lpthread libwsock32 libws2_32
 
 FORMS += \
         mainwindow.ui

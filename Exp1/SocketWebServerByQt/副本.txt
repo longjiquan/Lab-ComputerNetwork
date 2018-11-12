@@ -1,0 +1,27 @@
+//判断是否为监听端口
+    QString clientAddrStr(inet_ntoa(this->clientSock.sin_addr));
+    int clientPort=this->clientSock.sin_port;
+    qDebug()<<"listen addr:"<<this->listenAddrStr;
+    qDebug()<<"client addr:"<<clientAddrStr;
+    qDebug()<<"listen port:"<<this->listenPort;
+    qDebug()<<"client port:"<<clientPort;
+    bool flag1=(this->listenAddrStr.length()!=0)&&(this->listenAddrStr!=clientAddrStr);
+    bool flag2=(this->listenPort!=-1)&&(this->listenPort!=clientPort);
+    qDebug()<<"flag1:"<<flag1;qDebug()<<"flag2:"<<flag2;
+    if(flag1||flag2)
+    {//端口或地址不匹配，拒绝连接
+        httpStatus=Config::DENY_STR;//拒绝连接
+        httpHeader=httpVersion+httpStatus+"\r\n";
+
+        msg.clear();
+        msg<<clientAddrStr
+          <<QString::fromStdString(std::to_string(clientPort))
+          <<QString("")
+         <<QString::fromStdString(httpStatus);
+        send(this->acceptSocket,
+             httpHeader.c_str(),
+             (int)(httpHeader.length()),
+             0);
+        emit respondDone(msg);
+        return;
+    }
