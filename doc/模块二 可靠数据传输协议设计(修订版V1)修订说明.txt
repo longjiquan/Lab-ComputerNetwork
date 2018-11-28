@@ -1,0 +1,8 @@
+1：NetworkService新增加了二个接口函数：
+	virtual void setInputFile(const char *ifile) = 0;								//设置输入文件路径
+	virtual void setOutputFile(const char *ofile) = 0;								//设置输出文件路径
+这是为了测试更加方便，详见手册第3.3和4.5节。
+2：修订了上个版本StopWait协议的发送方实现，是通过比对输入文件和输出文件的内容发现的。
+上个版本的实现中，发送方收到确认报文时，应该首先判断发送方是否处于等待上个报文Ack的状态。
+如果不是处于等待上个报文Ack的状态，而是已经正确收到上个报文的确认，但应用层没有数据下来，
+这时发送方不应该做任何动作。
