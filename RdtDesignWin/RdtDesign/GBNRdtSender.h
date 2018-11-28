@@ -6,7 +6,7 @@ class GBNRdtSender :
 {
 
 private:
-	bool waitingState;
+	//bool waitingState;
 	int base;							//基序号，最早的未确认分组的序号
 	int nextSeqNum;						//下一个待发分组的序号
 	//int sentNum;						//已经发送的分组数目
@@ -17,6 +17,7 @@ private:
 
 private:
 	void InitState();
+	void printSlideWindow();
 
 public:
 	GBNRdtSender();

@@ -13,8 +13,6 @@
 
 int main(int argc, char* argv[])
 {
-	system("pause");
-
 	RdtSender *pStopWaitSender = new StopWaitRdtSender();
 	RdtReceiver * pStopWaitReceiver = new StopWaitRdtReceiver();
 	RdtSender *pGBNSender = new GBNRdtSender();
@@ -29,21 +27,18 @@ int main(int argc, char* argv[])
 	pns->setInputFile("..\\data\\input.txt");
 	pns->setOutputFile("..\\data\\StopWaitOutput.txt");
 	stopWatiLog.open("..\\data\\StopWait.log");
-	//cout.rdbuf(stopWatiLog.rdbuf());
+	cout.rdbuf(stopWatiLog.rdbuf());
 	pns->start();
-
-	system("pause");
+	stopWatiLog.close();
 	
 	pns->init();
 	pns->setRtdSender(pGBNSender);
 	pns->setRtdReceiver(pGBNReceiver);
 	pns->setInputFile("..\\data\\input.txt");
 	pns->setOutputFile("..\\data\\GBNOutput.txt");
-	stopWatiLog.open("..\\data\\GBN.log");
-	//cout.rdbuf(gbnLog.rdbuf());
+	gbnLog.open("..\\data\\GBN.log");
+	cout.rdbuf(gbnLog.rdbuf());
 	pns->start();
-
-	stopWatiLog.close();
 	gbnLog.close();
 
 	cout.rdbuf(coutBackup);
