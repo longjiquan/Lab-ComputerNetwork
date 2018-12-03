@@ -9,6 +9,8 @@
 #include "StopWaitRdtReceiver.h"
 #include "GBNRdtReceiver.h"
 #include "GBNRdtSender.h"
+#include "SRRdtReceiver.h"
+#include "SRRdtSender.h"
 
 
 int main(int argc, char* argv[])
@@ -17,8 +19,12 @@ int main(int argc, char* argv[])
 	RdtReceiver * pStopWaitReceiver = new StopWaitRdtReceiver();
 	RdtSender *pGBNSender = new GBNRdtSender();
 	RdtReceiver *pGBNReceiver = new GBNRdtReceiver();
+	RdtSender *pSRSender = new SRRdtSender();
+	RdtReceiver *pSRReceiver = new SRRdtReceiver();
+
 	ofstream stopWatiLog;
 	ofstream gbnLog;
+	ofstream srLog;
 	streambuf *coutBackup = cout.rdbuf();
 
 	pns->init();
@@ -41,12 +47,24 @@ int main(int argc, char* argv[])
 	pns->start();
 	gbnLog.close();
 
+	pns->init();
+	pns->setRtdSender(pSRSender);
+	pns->setRtdReceiver(pSRReceiver);
+	pns->setInputFile("..\\data\\input.txt");
+	pns->setOutputFile("..\\data\\SROutput.txt");
+	srLog.open("..\\data\\SR.log");
+	cout.rdbuf(srLog.rdbuf());
+	pns->start();
+	srLog.close();
+
 	cout.rdbuf(coutBackup);
 
 	delete pStopWaitSender;
 	delete pStopWaitReceiver;
 	delete pGBNSender;
 	delete pGBNReceiver;
+	delete pSRSender;
+	delete pSRReceiver;
 	delete pUtils;									//指向唯一的工具类实例，只在main函数结束前delete
 	delete pns;										//指向唯一的模拟网络环境类实例，只在main函数结束前delete
 	

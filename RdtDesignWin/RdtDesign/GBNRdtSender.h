@@ -8,20 +8,20 @@ class GBNRdtSender :
 private:
 	//bool waitingState;
 	int base;							//基序号，最早的未确认分组的序号
-	int nextSeqNum;						//下一个待发分组的序号
+	int nextSeqnum;						//下一个待发分组的序号
 	//int sentNum;						//已经发送的分组数目
-	const int wndSize;					//滑动窗口大小，实验建议为4
-	const int seqSize;					//序号大小，实验建议位数为3位，即0~7
-	//int *const stateArray;				//序号的状态，数组大小应该是seqSize
-	Packet *sendBuf;					//发送缓冲区，保存发送的报文，用于重传，大小应该是seqSize
+	const int wndsize;					//滑动窗口大小，实验建议为4
+	const int seqsize;					//序号大小，实验建议位数为3位，即0~7
+	//int *const stateArray;				//序号的状态，数组大小应该是seqsize
+	Packet *const sendBuf;					//发送缓冲区，保存发送的报文，用于重传，大小应该是seqsize
 
 private:
-	void InitState();
+	void Init();
 	void printSlideWindow();
 
 public:
 	GBNRdtSender();
-	GBNRdtSender(int wSize, int sSize);
+	GBNRdtSender(int wsize, int sSize);
 	virtual ~GBNRdtSender();
 
 	bool getWaitingState();

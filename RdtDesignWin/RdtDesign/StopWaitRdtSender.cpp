@@ -31,7 +31,7 @@ bool StopWaitRdtSender::send(Message &message) {
 	this->packetWaitingAck.checksum = 0;
 	memcpy(this->packetWaitingAck.payload, message.data, sizeof(message.data));
 	this->packetWaitingAck.checksum = pUtils->calculateCheckSum(this->packetWaitingAck);
-	pUtils->printPacket("发送方发送报文", this->packetWaitingAck);
+	pUtils->printPacket("[Debug]发送方发送报文", this->packetWaitingAck);
 	pns->startTimer(SENDER, Configuration::TIME_OUT,this->packetWaitingAck.seqnum);			//启动发送方定时器
 	pns->sendToNetworkLayer(RECEIVER, this->packetWaitingAck);								//调用模拟网络环境的sendToNetworkLayer，通过网络层发送到对方
 
@@ -49,11 +49,11 @@ void StopWaitRdtSender::receive(Packet &ackPkt) {
 		if (checkSum == ackPkt.checksum && ackPkt.acknum == this->packetWaitingAck.seqnum) {
 			this->expectSequenceNumberSend = 1 - this->expectSequenceNumberSend;			//下一个发送序号在0-1之间切换
 			this->waitingState = false;
-			pUtils->printPacket("发送方正确收到确认", ackPkt);
+			pUtils->printPacket("[Debug]发送方正确收到确认", ackPkt);
 			pns->stopTimer(SENDER, this->packetWaitingAck.seqnum);		//关闭定时器
 		}
 		else {
-			pUtils->printPacket("发送方没有正确收到确认，重发上次发送的报文", this->packetWaitingAck);
+			pUtils->printPacket("[Debug]发送方没有正确收到确认，重发上次发送的报文", this->packetWaitingAck);
 			pns->stopTimer(SENDER, this->packetWaitingAck.seqnum);									//首先关闭定时器
 			pns->startTimer(SENDER, Configuration::TIME_OUT, this->packetWaitingAck.seqnum);			//重新启动发送方定时器
 			pns->sendToNetworkLayer(RECEIVER, this->packetWaitingAck);								//重新发送数据包
@@ -64,7 +64,7 @@ void StopWaitRdtSender::receive(Packet &ackPkt) {
 
 void StopWaitRdtSender::timeoutHandler(int seqNum) {
 	//唯一一个定时器,无需考虑seqNum
-	pUtils->printPacket("发送方定时器时间到，重发上次发送的报文", this->packetWaitingAck);
+	pUtils->printPacket("[Debug]发送方定时器时间到，重发上次发送的报文", this->packetWaitingAck);
 	pns->stopTimer(SENDER,seqNum);										//首先关闭定时器
 	pns->startTimer(SENDER, Configuration::TIME_OUT,seqNum);			//重新启动发送方定时器
 	pns->sendToNetworkLayer(RECEIVER, this->packetWaitingAck);			//重新发送数据包
