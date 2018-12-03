@@ -15,9 +15,7 @@ void GBNRdtReceiver::Init()
 	lastAckPkt.acknum = -1; //初始状态下，上次发送的确认包的确认序号为0，使得当第一个接受的数据包出错时该确认报文的确认号为0
 	lastAckPkt.checksum = 0;
 	lastAckPkt.seqnum = -1;	//忽略该字段
-	for (int i = 0; i < Configuration::PAYLOAD_SIZE; i++) {
-		lastAckPkt.payload[i] = '.';
-	}
+	memset(lastAckPkt.payload, '.', Configuration::PAYLOAD_SIZE);
 	lastAckPkt.checksum = pUtils->calculateCheckSum(lastAckPkt);
 }
 

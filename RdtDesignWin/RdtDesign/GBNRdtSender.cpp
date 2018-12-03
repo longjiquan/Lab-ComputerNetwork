@@ -7,7 +7,8 @@
 void GBNRdtSender::Init()
 {
 	//sendBuf = new Packet[seqsize];
-	base = nextSeqnum = 0;
+	base = 0;
+	nextSeqnum = 0;
 }
 
 GBNRdtSender::GBNRdtSender():

@@ -5,8 +5,8 @@ class GBNRdtReceiver :
 {
 private:
 	int expectedSeqNum;
-	Packet lastAckPkt;
 	const int seqsize;
+	Packet lastAckPkt;
 
 private:
 	void Init();

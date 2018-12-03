@@ -130,6 +130,6 @@ void SRRdtSender::timeoutHandler(int seqnum)
 
 SRRdtSender::~SRRdtSender()
 {
-	delete[] sendBuf;
 	delete[] bufStatus;
+	delete[] sendBuf;
 }

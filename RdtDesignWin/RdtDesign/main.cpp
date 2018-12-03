@@ -69,5 +69,6 @@ int main(int argc, char* argv[])
 	delete pns;										//指向唯一的模拟网络环境类实例，只在main函数结束前delete
 	
 	return 0;
+
 }
 

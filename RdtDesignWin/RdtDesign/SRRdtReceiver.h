@@ -10,8 +10,7 @@ private:
 	Packet lastAckPkt;
 	Packet *const recvBuf;
 	bool *const bufStatus;
-	int base;
-	//int nextSeqnum;
+	int base;//int nextSeqnum;	
 
 private:
 	void Init();

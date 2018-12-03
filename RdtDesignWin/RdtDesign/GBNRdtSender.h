@@ -26,8 +26,8 @@ public:
 
 	bool getWaitingState();
 	bool send(Message &message);
-	void receive(Packet &ackPkt);
 	void timeoutHandler(int seqNum);
+	void receive(Packet &ackPkt);
 
 };
 

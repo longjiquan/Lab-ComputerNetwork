@@ -21,8 +21,8 @@ public:
 	SRRdtSender();
 	bool send(Message &message);
 	bool getWaitingState();
-	void receive(Packet &ackPkt);
 	void timeoutHandler(int seqnum);
+	void receive(Packet &ackPkt);
 	virtual ~SRRdtSender();
 };
 
