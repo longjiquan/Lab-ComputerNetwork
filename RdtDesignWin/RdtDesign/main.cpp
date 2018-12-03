@@ -11,6 +11,7 @@
 #include "GBNRdtSender.h"
 #include "SRRdtReceiver.h"
 #include "SRRdtSender.h"
+#include "TcpRdtSender.h"
 
 
 int main(int argc, char* argv[])
@@ -21,10 +22,13 @@ int main(int argc, char* argv[])
 	RdtReceiver *pGBNReceiver = new GBNRdtReceiver();
 	RdtSender *pSRSender = new SRRdtSender();
 	RdtReceiver *pSRReceiver = new SRRdtReceiver();
+	RdtSender *pTcpSender = new TcpRdtSender();
+	RdtReceiver *pTcpReceiver = new GBNRdtReceiver();
 
 	ofstream stopWatiLog;
 	ofstream gbnLog;
 	ofstream srLog;
+	ofstream tcpLog;
 	streambuf *coutBackup = cout.rdbuf();
 
 	pns->init();
@@ -57,6 +61,16 @@ int main(int argc, char* argv[])
 	pns->start();
 	srLog.close();
 
+	pns->init();
+	pns->setRtdSender(pTcpSender);
+	pns->setRtdReceiver(pGBNReceiver);
+	pns->setInputFile("..\\data\\input.txt");
+	pns->setOutputFile("..\\data\\TcpOutput.txt");
+	tcpLog.open("..\\data\\TcpLog.txt");
+	cout.rdbuf(tcpLog.rdbuf());
+	pns->start();
+	srLog.close();
+
 	cout.rdbuf(coutBackup);
 
 	delete pStopWaitSender;
@@ -65,6 +79,8 @@ int main(int argc, char* argv[])
 	delete pGBNReceiver;
 	delete pSRSender;
 	delete pSRReceiver;
+	delete pTcpSender;
+	delete pTcpReceiver;
 	delete pUtils;									//指向唯一的工具类实例，只在main函数结束前delete
 	delete pns;										//指向唯一的模拟网络环境类实例，只在main函数结束前delete
 	

@@ -17,6 +17,7 @@
 #include <fstream>
 #include <memory>
 #include <streambuf>
+#include <algorithm>
 using namespace std;
 
 //#pragma warning(disable:4482)

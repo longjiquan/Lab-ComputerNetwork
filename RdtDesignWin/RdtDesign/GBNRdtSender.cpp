@@ -11,6 +11,18 @@ void GBNRdtSender::Init()
 	nextSeqnum = 0;
 }
 
+bool GBNRdtSender::isInWindow(int seqnum)
+{
+	if (base < (base + wndsize) % seqsize)
+	{
+		return seqnum >= base && seqnum < (base + wndsize) % seqsize;
+	}
+	else
+	{
+		return seqnum >= base || seqnum < (base + wndsize) % seqsize;
+	}
+}
+
 GBNRdtSender::GBNRdtSender():
 	wndsize(4),seqsize(8),sendBuf(new Packet[8])
 {
@@ -127,11 +139,10 @@ void GBNRdtSender::printSlideWindow()
 			std::cout << "[";
 		std::cout << i;
 		if (i == nextSeqnum)
-			std::cout << "* ";
-		else
-			std::cout << " ";
-		if (i == (base + wndsize) % seqsize)
+			std::cout << "*";
+		if (i == (base + wndsize - 1) % seqsize)
 			std::cout << "]";
+		std::cout << " ";
 	}
 	std::cout << std::endl;
 }
