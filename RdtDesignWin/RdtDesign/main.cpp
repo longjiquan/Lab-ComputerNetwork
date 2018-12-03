@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 	pns->setRtdReceiver(pStopWaitReceiver);
 	pns->setInputFile("..\\data\\input.txt");
 	pns->setOutputFile("..\\data\\StopWaitOutput.txt");
-	stopWatiLog.open("..\\data\\StopWait.log");
+	stopWatiLog.open("..\\data\\StopWaitLog.txt");
 	cout.rdbuf(stopWatiLog.rdbuf());
 	pns->start();
 	stopWatiLog.close();
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 	pns->setRtdReceiver(pGBNReceiver);
 	pns->setInputFile("..\\data\\input.txt");
 	pns->setOutputFile("..\\data\\GBNOutput.txt");
-	gbnLog.open("..\\data\\GBN.log");
+	gbnLog.open("..\\data\\GBNLog.txt");
 	cout.rdbuf(gbnLog.rdbuf());
 	pns->start();
 	gbnLog.close();
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 	pns->setRtdReceiver(pSRReceiver);
 	pns->setInputFile("..\\data\\input.txt");
 	pns->setOutputFile("..\\data\\SROutput.txt");
-	srLog.open("..\\data\\SR.log");
+	srLog.open("..\\data\\SRLog.txt");
 	cout.rdbuf(srLog.rdbuf());
 	pns->start();
 	srLog.close();
