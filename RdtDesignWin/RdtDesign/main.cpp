@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	ofstream tcpLog;
 	streambuf *coutBackup = cout.rdbuf();
 
-	pns->init();
+	/*pns->init();
 	pns->setRtdSender(pStopWaitSender);
 	pns->setRtdReceiver(pStopWaitReceiver);
 	pns->setInputFile("..\\data\\input.txt");
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 	srLog.open("..\\data\\SRLog.txt");
 	cout.rdbuf(srLog.rdbuf());
 	pns->start();
-	srLog.close();
+	srLog.close();*/
 
 	pns->init();
 	pns->setRtdSender(pTcpSender);

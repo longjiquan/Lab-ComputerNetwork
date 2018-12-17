@@ -36,11 +36,13 @@ void GBNRdtReceiver::receive(Packet & packet)
 	{//数据包损坏，不作出应答
 		pUtils->printPacket("[Debug]接收方没有正确收到发送方的报文,数据校验错误", packet);
 		pns->sendToNetworkLayer(SENDER, lastAckPkt);//发送上次的
+		return;
 	}
 	if (packet.seqnum != expectedSeqNum)
 	{//不是想要的数据包，不作出应答
 		pUtils->printPacket("[Debug]不是期望的数据分组", packet);
 		pns->sendToNetworkLayer(SENDER, lastAckPkt);//发送上次的
+		return;
 	}
 	else
 	{
