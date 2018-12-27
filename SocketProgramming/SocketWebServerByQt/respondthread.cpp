@@ -136,6 +136,10 @@ void RespondThread::run()
         {
             typeStr="Content-Type: text/html\r\n";
         }
+        else if(endWith(url,".txt"))
+        {
+            typeStr="Content-Type: text/plain\r\n";
+        }
         else if(endWith(url,".jpg"))
         {
             typeStr="Content-Type: image/jpeg\r\n";
@@ -150,22 +154,24 @@ void RespondThread::run()
         {
             typeStr="Content-Type: image/x-icon\r\n";
         }
-        else if(!infile)
-        {//文件不存在
-            fclose(infile);
-            //发送自定义404页面
-            infile=fopen("404.html","rb");
-            statusCode=Config::NOT_FOUND_STR;
-            firstHeader="HTTP/1.1 404 Not Found\r\n";
-            typeStr="Content-Type: text/html\r\n";
-        }
-        if(!infile)
+        else
         {
             fclose(infile);
             //发送自定义501页面
-            infile=fopen("501.html","rb");
+            infile=fopen((mainPath+"\\501.html").c_str(),"rb");
+            //infile=fopen("501.html","rb");
             statusCode=Config::ERROR_METHOD_STR;
             firstHeader="HTTP/1.1 501 Not Inplemented\r\n";
+            typeStr="Content-Type: text/html\r\n";
+        }
+        if(!infile)
+        {//文件不存在
+            fclose(infile);
+            //发送自定义404页面
+            infile=fopen((mainPath+"\\404.html").c_str(),"rb");
+            //infile=fopen("404.html","rb");
+            statusCode=Config::NOT_FOUND_STR;
+            firstHeader="HTTP/1.1 404 Not Found\r\n";
             typeStr="Content-Type: text/html\r\n";
         }
         //获取文件大小
@@ -195,8 +201,6 @@ void RespondThread::run()
             //缓存清零
             memset(sendBuf,0,sizeof(sendBuf));
             bufReadNum=fread(sendBuf,1,Config::BUF_LENGTH,infile);
-//            fgets(sendBuf,sizeof(sendBuf),infile);不对，坑人
-//            qDebug()<<"send buf"<<sendBuf;
             if(SOCKET_ERROR==(send(acceptSocket,sendBuf,bufReadNum,0)))
             {//发送失败
                 rtn=SOCKET_ERROR;
